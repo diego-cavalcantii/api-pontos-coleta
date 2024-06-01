@@ -24,6 +24,15 @@ public class PontoColetaRepository {
                 PontoColeta pontoColeta = new PontoColeta();
                 pontoColeta.setName(rs.getString("NAME"));
                 pontoColeta.setType(rs.getString("TYPE"));
+                pontoColeta.setCep(rs.getString("CEP"));
+                pontoColeta.setLogradouro(rs.getString("LOGRADOURO"));
+                pontoColeta.setNumero(rs.getString("NUMERO"));
+                pontoColeta.setBairro(rs.getString("BAIRRO"));
+                pontoColeta.setCidade(rs.getString("CIDADE"));
+                pontoColeta.setUf(rs.getString("UF"));
+                pontoColeta.setComplemento(rs.getString("COMPLEMENTO"));
+                pontoColeta.setTelefone(rs.getString("TELEFONE"));
+                pontoColeta.setImagemUrl(rs.getString("IMAGEM_URL"));
                 listPontoColeta.add(pontoColeta);
             }
         } catch (SQLException e) {
@@ -45,6 +54,16 @@ public class PontoColetaRepository {
                 coleta = new PontoColeta();
                 coleta.setName(rs.getString("NAME"));
                 coleta.setType(rs.getString("TYPE"));
+                coleta.setCep(rs.getString("CEP"));
+                coleta.setLogradouro(rs.getString("LOGRADOURO"));
+                coleta.setNumero(rs.getString("NUMERO"));
+                coleta.setBairro(rs.getString("BAIRRO"));
+                coleta.setCidade(rs.getString("CIDADE"));
+                coleta.setUf(rs.getString("UF"));
+                coleta.setComplemento(rs.getString("COMPLEMENTO"));
+                coleta.setTelefone(rs.getString("TELEFONE"));
+                coleta.setImagemUrl(rs.getString("IMAGEM_URL"));
+
 
             }
         }catch (SQLException e){
@@ -65,6 +84,15 @@ public class PontoColetaRepository {
                 PontoColeta pontoColeta = new PontoColeta();
                 pontoColeta.setName(rs.getString("NAME"));
                 pontoColeta.setType(rs.getString("TYPE"));
+                pontoColeta.setCep(rs.getString("CEP"));
+                pontoColeta.setLogradouro(rs.getString("LOGRADOURO"));
+                pontoColeta.setNumero(rs.getString("NUMERO"));
+                pontoColeta.setBairro(rs.getString("BAIRRO"));
+                pontoColeta.setCidade(rs.getString("CIDADE"));
+                pontoColeta.setUf(rs.getString("UF"));
+                pontoColeta.setComplemento(rs.getString("COMPLEMENTO"));
+                pontoColeta.setTelefone(rs.getString("TELEFONE"));
+                pontoColeta.setImagemUrl(rs.getString("IMAGEM_URL"));
                 pendingPontoColetaList.add(pontoColeta);
             }
         } catch (SQLException e) {
@@ -103,10 +131,23 @@ public class PontoColetaRepository {
     public int createPontoColeta(PontoColeta coleta){
         try(
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("INSERT INTO pontos_coleta (NAME, TYPE, STATUS) VALUES (?, ?, 'PENDING')")
+                PreparedStatement psmt = conn.prepareStatement("INSERT INTO pontos_coleta (NAME, TYPE,CEP,LOGRADOURO,NUMERO,BAIRRO,CIDADE,UF,COMPLEMENTO,TELEFONE,IMAGEM_URL, STATUS) VALUES (?,?,?,?,?,?,?,?,?,?,?, 'PENDING')")
         ){
             psmt.setString(1, coleta.getName());
             psmt.setString(2, coleta.getType());
+            psmt.setString(3, coleta.getCep());
+            psmt.setString(4, coleta.getLogradouro());
+            psmt.setString(5, coleta.getNumero());
+            psmt.setString(6, coleta.getBairro());
+            psmt.setString(7, coleta.getCidade());
+            psmt.setString(8, coleta.getUf());
+            psmt.setString(9, coleta.getComplemento());
+            psmt.setString(10, coleta.getTelefone());
+            psmt.setString(11, coleta.getImagemUrl());
+
+
+
+
 
             return psmt.executeUpdate();
         }catch (SQLException e){
@@ -118,10 +159,20 @@ public class PontoColetaRepository {
     public int updatePontoColeta(PontoColeta coleta){
         try (
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET NAME=?,TYPE=? WHERE NAME = ?")
+                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET NAME=?,TYPE=?,CEP=?,LOGRADOURO=?,NUMERO=?, BAIRRO=?,CIDADE=?,UF=?,COMPLEMENTO=?,TELEFONE=?,IMAGEM_URL=? WHERE NAME = ?")
         ){
             psmt.setString(1, coleta.getName());
             psmt.setString(2, coleta.getType());
+            psmt.setString(3, coleta.getCep());
+            psmt.setString(4, coleta.getLogradouro());
+            psmt.setString(5, coleta.getNumero());
+            psmt.setString(6, coleta.getBairro());
+            psmt.setString(7, coleta.getCidade());
+            psmt.setString(8, coleta.getUf());
+            psmt.setString(9, coleta.getComplemento());
+            psmt.setString(10, coleta.getTelefone());
+            psmt.setString(11, coleta.getImagemUrl());
+
             return psmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
