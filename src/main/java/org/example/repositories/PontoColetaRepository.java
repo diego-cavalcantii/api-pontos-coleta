@@ -22,6 +22,7 @@ public class PontoColetaRepository {
         ){
             while (rs.next()){
                 PontoColeta pontoColeta = new PontoColeta();
+                pontoColeta.setidColeta(rs.getInt("IDCOLETA"));
                 pontoColeta.setName(rs.getString("NAME"));
                 pontoColeta.setType(rs.getString("TYPE"));
                 pontoColeta.setCep(rs.getString("CEP"));
@@ -41,17 +42,18 @@ public class PontoColetaRepository {
         return listPontoColeta;
     }
 
-    public Optional<PontoColeta> findPontoColetaByName(String name){
+    public Optional<PontoColeta> findPontoColetaByName(int idColeta){
         PontoColeta coleta = null;
         try (
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("SELECT * FROM pontos_coleta WHERE NAME = ? ORDER BY NAME")
+                PreparedStatement psmt = conn.prepareStatement("SELECT * FROM pontos_coleta WHERE idColeta = ? ORDER BY IDCOLETA")
         ){
-            psmt.setString(1, name);
+            psmt.setInt(1, idColeta);
             ResultSet rs = psmt.executeQuery();
 
             if(rs.next()){
                 coleta = new PontoColeta();
+                coleta.setidColeta(rs.getInt("IDCOLETA"));
                 coleta.setName(rs.getString("NAME"));
                 coleta.setType(rs.getString("TYPE"));
                 coleta.setCep(rs.getString("CEP"));
@@ -82,6 +84,7 @@ public class PontoColetaRepository {
         ){
             while (rs.next()){
                 PontoColeta pontoColeta = new PontoColeta();
+                pontoColeta.setidColeta(rs.getInt("IDCOLETA"));
                 pontoColeta.setName(rs.getString("NAME"));
                 pontoColeta.setType(rs.getString("TYPE"));
                 pontoColeta.setCep(rs.getString("CEP"));
@@ -101,12 +104,12 @@ public class PontoColetaRepository {
         return pendingPontoColetaList;
     }
 
-    public int acceptPontoColeta(String name){
+    public int acceptPontoColeta(int idColeta){
         try(
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET STATUS = 'ACCEPTED' WHERE NAME = ? AND STATUS = 'PENDING'")
+                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET STATUS = 'ACCEPTED' WHERE IDCOLETA = ? AND STATUS = 'PENDING'")
         ){
-            psmt.setString(1, name);
+            psmt.setInt(1, idColeta);
             return psmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -115,12 +118,12 @@ public class PontoColetaRepository {
     }
 
 
-    public int rejectPontoColeta(String name){
+    public int rejectPontoColeta(int idColeta){
         try(
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("DELETE FROM pontos_coleta WHERE NAME = ?")
+                PreparedStatement psmt = conn.prepareStatement("DELETE FROM pontos_coleta WHERE IDCOLETA = ?")
         ){
-            psmt.setString(1, name);
+            psmt.setInt(1, idColeta);
             return psmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -159,7 +162,7 @@ public class PontoColetaRepository {
     public int updatePontoColeta(PontoColeta coleta){
         try (
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET NAME=?,TYPE=?,CEP=?,LOGRADOURO=?,NUMERO=?, BAIRRO=?,CIDADE=?,UF=?,COMPLEMENTO=?,TELEFONE=?,IMAGEM_URL=? WHERE NAME = ?")
+                PreparedStatement psmt = conn.prepareStatement("UPDATE pontos_coleta SET NAME=?,TYPE=?,CEP=?,LOGRADOURO=?,NUMERO=?, BAIRRO=?,CIDADE=?,UF=?,COMPLEMENTO=?,TELEFONE=?,IMAGEM_URL=? WHERE IDCOLETA = ?")
         ){
             psmt.setString(1, coleta.getName());
             psmt.setString(2, coleta.getType());
@@ -180,12 +183,12 @@ public class PontoColetaRepository {
         return 0;
     }
 
-    public int deletePontoColeta(String name){
+    public int deletePontoColeta(int idColeta){
         try(
                 Connection conn = DriverManager.getConnection(URL_CONNECTION,USER,PASSWORD);
-                PreparedStatement psmt = conn.prepareStatement("DELETE FROM pontos_coleta WHERE NAME = ?")
+                PreparedStatement psmt = conn.prepareStatement("DELETE FROM pontos_coleta WHERE IDCOLETA = ?")
         ){
-            psmt.setString(1, name);
+            psmt.setInt(1, idColeta);
             return psmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

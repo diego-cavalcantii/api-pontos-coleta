@@ -2,8 +2,9 @@ package org.example.model;
 
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
-@JsonbPropertyOrder({"name","type","cep","logradouro","numero","bairro","cidade","uf","complemento","telefone","imagem_url"})
+@JsonbPropertyOrder({"idColeta","name","type","cep","logradouro","numero","bairro","cidade","uf","complemento","telefone","imagem_url"})
 public class PontoColeta {
+    private int idColeta;
     private String name;
     private String type;
     private String cep;
@@ -18,7 +19,8 @@ public class PontoColeta {
     public PontoColeta() {
     }
 
-    public PontoColeta(String name, String type, String cep, String logradouro, String numero, String bairro, String cidade, String uf, String complemento, String telefone, String imagemUrl) {
+    public PontoColeta(int idColeta, String name, String type, String cep, String logradouro, String numero, String bairro, String cidade, String uf, String complemento, String telefone, String imagemUrl) {
+        this.idColeta = idColeta;
         this.name = name;
         this.type = type;
         this.cep = cep;
@@ -30,6 +32,14 @@ public class PontoColeta {
         this.complemento = complemento;
         this.telefone = telefone;
         this.imagemUrl = imagemUrl;
+    }
+
+    public int getidColeta() {
+        return idColeta;
+    }
+
+    public void setidColeta(int idColeta) {
+        this.idColeta = idColeta;
     }
 
     public String getName() {
@@ -123,7 +133,8 @@ public class PontoColeta {
     @Override
     public String toString() {
         return "PontoColeta{" +
-                "name='" + name + '\'' +
+                "idColeta=" + idColeta +
+                ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", cep='" + cep + '\'' +
                 ", logradouro='" + logradouro + '\'' +

@@ -28,10 +28,10 @@ public class PontoColetaResource {
     }
 
     @GET
-    @Path("{name}")
+    @Path("{idColeta}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getColetaByName(@PathParam("name") String name){
-        Optional<PontoColeta> coleta = pontoColetaRepository.findPontoColetaByName(name);
+    public Response getColetaById(@PathParam("idColeta") int idColeta){
+        Optional<PontoColeta> coleta = pontoColetaRepository.findPontoColetaByName(idColeta);
         if(coleta.isEmpty()){
             Main.LOGGER.info("404 - Pontos de coleta não encontrado");
             return Response.status(404).entity("Pontos de coleta não encontrado").build();
@@ -43,25 +43,25 @@ public class PontoColetaResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createAstro(PontoColeta astro){
-        if (astro == null || astro.getName() == null || astro.getType() == null || astro.getCep() == null || astro.getLogradouro() == null || astro.getBairro() == null || astro.getCidade() == null){
+    public Response createPontoColeta(PontoColeta coleta){
+        if (coleta == null || coleta.getName() == null || coleta.getType() == null || coleta.getCep() == null || coleta.getLogradouro() == null || coleta.getBairro() == null || coleta.getCidade() == null){
             Main.LOGGER.info("400 - Dados do Ponto de Coleta não fornecidos");
             return Response.status(400).entity("Dados do Ponto de Coleta não fornecidos").build();
         }
-        pontoColetaRepository.createPontoColeta(astro);
+        pontoColetaRepository.createPontoColeta(coleta);
         Main.LOGGER.info("[POST] - 201 - Ponto de Coleta Criado");
-        return Response.status(201).entity(astro).build();
+        return Response.status(201).entity(coleta).build();
     }
 
 
 
     @PUT
-    @Path("{name}")
+    @Path("{idColeta}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updatePontoColeta(@PathParam("name") String name, PontoColeta coleta){
-        if(pontoColetaRepository.findPontoColetaByName(name).isPresent()){
-            coleta.setName(name);
+    public Response updatePontoColeta(@PathParam("idColeta") int idColeta, PontoColeta coleta){
+        if(pontoColetaRepository.findPontoColetaByName(idColeta).isPresent()){
+            coleta.setidColeta(idColeta);
             pontoColetaRepository.updatePontoColeta(coleta);
             Main.LOGGER.info("[PUT] - 200 - OK");
             return
@@ -72,9 +72,9 @@ public class PontoColetaResource {
     }
 
     @DELETE
-    @Path("{name}")
-    public Response deletePontoColeta(@PathParam("name") String name){
-        pontoColetaRepository.deletePontoColeta(name);
+    @Path("{idColeta}")
+    public Response deletePontoColeta(@PathParam("idColeta") int idColeta){
+        pontoColetaRepository.deletePontoColeta(idColeta);
         Main.LOGGER.info("[DELETE] - 204 - Ponto de Coleta Deletado");
         return Response.noContent().build();
     }
@@ -95,24 +95,24 @@ public class PontoColetaResource {
 
     // Endpoint para aceitar um ponto de coleta pendente
     @PUT
-    @Path("{name}/accept")
-    public Response acceptPontoColeta(@PathParam("name") String name){
-        int updatedRows = pontoColetaRepository.acceptPontoColeta(name);
+    @Path("{idColeta}/accept")
+    public Response acceptPontoColeta(@PathParam("idColeta") int idColeta){
+        int updatedRows = pontoColetaRepository.acceptPontoColeta(idColeta);
         if (updatedRows > 0) {
-            Main.LOGGER.info("Ponto de coleta pendente aceito: " + name);
+            Main.LOGGER.info("Ponto de coleta pendente aceito: " + idColeta);
             return Response.ok().build();
         } else {
-            Main.LOGGER.info("Ponto de coleta pendente não encontrado ou já aceito: " + name);
+            Main.LOGGER.info("Ponto de coleta pendente não encontrado ou já aceito: " + idColeta);
             return Response.status(Response.Status.NOT_FOUND).entity("Ponto de coleta pendente não encontrado ou já aceito").build();
         }
     }
 
     // Endpoint para rejeitar um ponto de coleta pendente
     @PUT
-    @Path("{name}/reject")
-    public Response rejectPontoColeta(@PathParam("name") String name){
-        pontoColetaRepository.rejectPontoColeta(name);
-        Main.LOGGER.info("Ponto de coleta pendente rejeitado: " + name);
+    @Path("{idColeta}/reject")
+    public Response rejectPontoColeta(@PathParam("idColeta") int idColeta){
+        pontoColetaRepository.rejectPontoColeta(idColeta);
+        Main.LOGGER.info("Ponto de coleta pendente rejeitado: " + idColeta);
         return Response.ok().build();
     }
 }
