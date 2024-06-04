@@ -9,16 +9,19 @@ public class UserRepository {
     public static final String USER = "rm553351";
     public static final String PASSWORD = "120303";
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUserName(String email) {
         try (
                 Connection conn = DriverManager.getConnection(URL_CONNECTION, USER, PASSWORD);
                 PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuario WHERE USERNAME = ?")
         ) {
-            ps.setString(1, username);
+            ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 User user = new User();
+                user.setCpf(rs.getString("CPF"));
+                user.setName(rs.getString("NAME"));
                 user.setUsername(rs.getString("USERNAME"));
+                user.setEmail(rs.getString("EMAIL"));
                 user.setPassword(rs.getString("PASSWORD"));
                 return Optional.of(user);
             }
@@ -31,10 +34,14 @@ public class UserRepository {
     public boolean save(User user) {
         try (
                 Connection conn = DriverManager.getConnection(URL_CONNECTION, USER, PASSWORD);
-                PreparedStatement ps = conn.prepareStatement("INSERT INTO usuario (username, password) VALUES (?, ?)")
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO usuario (CPF,NAME,USERNAME,EMAIL,PASSWORD) VALUES (?, ?, ?, ?, ?)")
         ) {
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            ps.setString(1, user.getCpf());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getUsername());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getPassword());
+
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -44,7 +51,7 @@ public class UserRepository {
     }
 
     public Optional<User> authenticate(String username, String password) {
-        Optional<User> userOptional = findByUsername(username);
+        Optional<User> userOptional = findByUserName(username);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.getPassword().equals(password)) {

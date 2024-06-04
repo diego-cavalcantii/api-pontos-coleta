@@ -17,7 +17,7 @@ public class UserResource {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(User user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.findByUserName(user.getUsername()).isPresent()) {
             return Response.status(Response.Status.CONFLICT).build();
         }
         if (userRepository.save(user)) {
