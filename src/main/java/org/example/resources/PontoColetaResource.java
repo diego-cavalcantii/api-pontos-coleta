@@ -1,12 +1,13 @@
 package org.example.resources;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+
 import org.example.Main;
 import org.example.model.PontoColeta;
 import org.example.repositories.PontoColetaRepository;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +33,14 @@ public class PontoColetaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColetaById(@PathParam("idColeta") int idColeta){
         Optional<PontoColeta> coleta = pontoColetaRepository.findPontoColetaByName(idColeta);
-        if(coleta.isEmpty()){
+        if(!coleta.isPresent()){ // Verifica se o Optional NÃO está presente
             Main.LOGGER.info("404 - Pontos de coleta não encontrado");
             return Response.status(404).entity("Pontos de coleta não encontrado").build();
         }
         Main.LOGGER.info("[GET] - 200 OK");
         return Response.status(200).entity(coleta).build();
     }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

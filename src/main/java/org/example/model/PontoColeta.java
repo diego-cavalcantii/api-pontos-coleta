@@ -1,6 +1,5 @@
 package org.example.model;
-
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import javax.json.bind.annotation.JsonbPropertyOrder;
 
 @JsonbPropertyOrder({"idColeta","name","type","cep","logradouro","numero","bairro","cidade","uf","complemento","telefone","imagem_url"})
 public class PontoColeta {

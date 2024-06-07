@@ -1,16 +1,18 @@
 package org.example.resources;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import org.example.model.User;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/admin")
 public class AdminResource {
 
-    private static final String ADMIN_USERNAME = System.getenv("ADMIN_USERNAME");
-    private static final String ADMIN_PASSWORD = System.getenv("ADMIN_PASSWORD");
-
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "admin123";
 
     @POST
     @Path("/login")

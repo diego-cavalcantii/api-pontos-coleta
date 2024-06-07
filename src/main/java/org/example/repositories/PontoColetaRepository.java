@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class PontoColetaRepository {
-    public static final String URL_CONNECTION = System.getenv("DATABASE_URL");
-    public static final String USER = System.getenv("DATABASE_USER");
-    public static final String PASSWORD = System.getenv("DATABASE_PASSWORD");
+    public static final String URL_CONNECTION = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
+    public static final String USER = "rm553351";
+    public static final String PASSWORD = "120303";
 
 
     public List<PontoColeta> findAll(){
@@ -66,14 +66,13 @@ public class PontoColetaRepository {
                 coleta.setComplemento(rs.getString("COMPLEMENTO"));
                 coleta.setTelefone(rs.getString("TELEFONE"));
                 coleta.setImagemUrl(rs.getString("IMAGEM_URL"));
-
-
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
         return Optional.ofNullable(coleta);
     }
+
 
     public List<PontoColeta> findPendingPontoColeta(){
         List<PontoColeta> pendingPontoColetaList = new ArrayList<>();
