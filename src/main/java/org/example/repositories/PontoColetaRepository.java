@@ -16,6 +16,8 @@ public class PontoColetaRepository {
 
 
 
+
+
     public List<PontoColeta> findAll(){
         List<PontoColeta> listPontoColeta = new ArrayList<>();
 
