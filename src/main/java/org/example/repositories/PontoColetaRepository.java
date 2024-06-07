@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class PontoColetaRepository {
-    public static final String URL_CONNECTION = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-    public static final String USER = "rm553351";
-    public static final String PASSWORD = "120303";
+    public static final String URL_CONNECTION = System.getenv("DATABASE_URL");
+    public static final String USER = System.getenv("DATABASE_USER");
+    public static final String PASSWORD = System.getenv("DATABASE_PASSWORD");
+
 
     public List<PontoColeta> findAll(){
         List<PontoColeta> listPontoColeta = new ArrayList<>();
