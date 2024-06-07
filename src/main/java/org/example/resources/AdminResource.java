@@ -8,8 +8,9 @@ import org.example.model.User;
 @Path("/admin")
 public class AdminResource {
 
-    private static final String ADMIN_USERNAME = "admin";
-    private static final String ADMIN_PASSWORD = "admin123";
+    private static final String ADMIN_USERNAME = System.getenv("ADMIN_USERNAME");
+    private static final String ADMIN_PASSWORD = System.getenv("ADMIN_PASSWORD");
+
 
     @POST
     @Path("/login")
